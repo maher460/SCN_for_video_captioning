@@ -236,7 +236,7 @@ if __name__ == '__main__':
     
     img_feats = np.concatenate((c3d_img_feats,resnet_img_feats),axis=1)
     
-    data = scipy.io.loadmat('/afs/cs/projects/kovashka/maher/vol2/scn/tag_feats.mat')
+    data = scipy.io.loadmat('/afs/cs/projects/kovashka/maher/vol2/scn/data/youtube2text/tag_feats.mat')
     tag_feats = data['feats'].astype(theano.config.floatX)
 
     [val_negll, te_negll] = train_model(train, val, test, img_feats, tag_feats, W,
