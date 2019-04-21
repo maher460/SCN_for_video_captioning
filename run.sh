@@ -1,4 +1,4 @@
 mkdir venv
 virtualenv -p python2.7 ./venv
 source ./venv/bin/activate
-pip install Theano==0.7
+pip install 'Theano>=0.7.0,<0.7.9'
