@@ -210,9 +210,9 @@ def train_model(train, valid, test, img_feats, tag_feats, W, n_words=7164, n_x=3
 if __name__ == '__main__':
     
     # https://docs.python.org/2/howto/logging-cookbook.html
-    logger = logging.getLogger('eval_youtube_scn')
+    logger = logging.getLogger('/afs/cs/projects/kovashka/maher/vol2/scn/results/eval_youtube_scn')
     logger.setLevel(logging.INFO)
-    fh = logging.FileHandler('eval_youtube_scn.log')
+    fh = logging.FileHandler('/afs/cs/projects/kovashka/maher/vol2/scn/results/eval_youtube_scn.log')
     fh.setLevel(logging.INFO)
     ch = logging.StreamHandler()
     ch.setLevel(logging.INFO)
@@ -221,24 +221,24 @@ if __name__ == '__main__':
     ch.setFormatter(formatter)
     logger.addHandler(fh)
     
-    x = cPickle.load(open("./data/youtube2text/corpus.p","rb"))
+    x = cPickle.load(open("/afs/cs/projects/kovashka/maher/vol2/scn/data/youtube2text/corpus.p","rb"))
     train, val, test = x[0], x[1], x[2]
     wordtoix, ixtoword = x[3], x[4]
     W = x[5]
     del x
     n_words = len(ixtoword)
     
-    data = scipy.io.loadmat('./data/youtube2text/c3d_feats.mat')
+    data = scipy.io.loadmat('/afs/cs/projects/kovashka/maher/vol2/scn/data/youtube2text/c3d_feats.mat')
     c3d_img_feats = data['feats'].astype(theano.config.floatX)
     
-    data = scipy.io.loadmat('./data/youtube2text/resnet_feats.mat')
+    data = scipy.io.loadmat('/afs/cs/projects/kovashka/maher/vol2/scn/data/youtube2text/resnet_feats.mat')
     resnet_img_feats = data['feature'].T.astype(theano.config.floatX)
     
     img_feats = np.concatenate((c3d_img_feats,resnet_img_feats),axis=1)
     
-    data = scipy.io.loadmat('./tag_feats.mat')
+    data = scipy.io.loadmat('/afs/cs/projects/kovashka/maher/vol2/scn/tag_feats.mat')
     tag_feats = data['feats'].astype(theano.config.floatX)
 
     [val_negll, te_negll] = train_model(train, val, test, img_feats, tag_feats, W,
-        n_words=n_words)
+        n_words=n_words, saveto='/afs/cs/projects/kovashka/maher/vol2/scn/results/youtube_result_scn.npz')
         
